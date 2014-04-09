@@ -36,7 +36,7 @@ endif()
 include( CherryConfig.cmake )
 
 # add the include files
-list( APPEND Cherry_SRC src/main.cpp )
+list( APPEND Cherry_SRC include/particle_renderer.hpp src/main.cpp )
 
 # set include directories
 include_directories( ${Cherry_INCLUDE_DIRS} ${GLUT_LIBRARIES} ${Nyx_INCLUDE_DIRS} )

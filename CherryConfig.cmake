@@ -40,10 +40,21 @@ set( ENV{Cherry_DIR} ${Cherry_DIR} )
 # add module paths
 list( APPEND CMAKE_MODULE_PATH ${Cherry_DIR}/cmake ${CMAKE_INSTALL_PREFIX}/share $ENV{HOME}/.local/share )
 
+# find nyx
+find_package( Nyx REQUIRED )
+
 # find GL stuff
-find_package( OpenGL REQUIRED )
-find_package( GLEW REQUIRED )
 find_package( GLUT REQUIRED )
+
+# find Eigen3
+if( WIN32 )
+    set( EIGEN3_INCLUDE_DIR $ENV{Eigen3_DIR} )
+endif()
+find_package( Eigen3 REQUIRED )
+if( NOT CMAKE_SIZEOF_VOID_P MATCHES "8")
+    list( APPEND Kiwi_COMPILE_DEFINITIONS EIGEN_DONT_ALIGN)
+endif()
+add_definitions( -DEIGEN_FOUND )
 
 # add debug definition
 if( CMAKE_BUILD_TYPE MATCHES Debug )
@@ -71,9 +82,8 @@ set( Cherry_LIBRARY ${Cherry_TARGET} CACHE INTERNAL "the cherry lib" )
 set( Cherry_INCLUDE_DIRS
     ${Cherry_INCLUDE_DIR}
     ${EIGEN3_INCLUDE_DIR}
-    ${OPENGL_INCLUDE_DIR}
+    ${Nyx_INCLUDE_DIRS}
     ${GLUT_INCLUDE_PATH}
-    ${GLEW_INCLUDE_DIR}
     ${Cherry_DIR}/extern/nyx/include
     ${Cherry_DIR}/src CACHE INTERNAL "all include directories cherry needs" )
 
@@ -81,9 +91,8 @@ set( Cherry_INCLUDE_DIRS
 set( Cherry_LINK_LIBRARIES
     -lm
     -lc
-    ${OPENGL_LIBRARIES}
-    ${GLUT_LIBRARIES}
-    ${GLEW_LIBRARIES} CACHE INTERNAL "all libs cherry needs" )
+    ${Nyx_LIBRARIES}
+    ${GLUT_LIBRARIES} CACHE INTERNAL "all libs cherry needs" )
 
 # set libraries
 set( Cherry_LIBRARIES ${Cherry_LIBRARY} ${Cherry_LINK_LIBRARIES} CACHE INTERNAL "the cherry lib" )

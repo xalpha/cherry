@@ -25,29 +25,33 @@
 #include <GL/glew.h>
 #include <GL/glut.h>
 
+#include <particle_renderer.hpp>
 
 /*
- * test_plot.cpp
+ * main.cpp
  *
- *  Created on: Aug 21, 2012
+ *  Created on: Apr 9, 2014
  *      Author: alex
  */
 
-
+static particle_renderer<float> s_renderer;
 
 /////
 // GLUT callbacks
 ///
 void idlefunc(void){ glutPostRedisplay(); }
-void reshapefunc(int width,int height){  }
-void motionfunc(int x,int y){  }
-void keyboardfunc(unsigned char key,int x,int y){  }
-void displayfunc(){ glClearColor(255,255,255,255);
-                    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-                    glutSwapBuffers();}
+void reshapefunc(int width,int height){ s_renderer.handleResize( width, height ); }
+void motionfunc(int x,int y){ s_renderer.handleMouseMove( x,y ); }
+void keyboardfunc(unsigned char key,int x,int y){ s_renderer.handleKeyboard( key ); }
+void displayfunc(){ s_renderer.draw(); glutSwapBuffers(); }
 void mousefunc(int button,int state,int x,int y)
 {
+    switch( button )
+    {
+        case GLUT_LEFT_BUTTON : s_renderer.handleMousePress( x,y,nyx::widget<float>::LeftButton ); break;
+        case GLUT_RIGHT_BUTTON : s_renderer.handleMousePress( x,y,nyx::widget<float>::RightButton ); break;
     }
+}
 
 
 int main( int argc, char** argv )
