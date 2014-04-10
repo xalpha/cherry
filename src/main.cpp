@@ -77,6 +77,9 @@ int main( int argc, char** argv )
         exit(-1);
     }
 
+    s_renderer.initialize();
+    s_renderer.init();
+
     // Register the callback-functions. These are then executed by GLUT
     // as soon as the main loop is entered (see below)
     glutDisplayFunc(displayfunc);

@@ -52,8 +52,10 @@ public:
 
     virtual void draw();
 
-protected:
     void init();
+
+protected:
+
     void step();
     void update();
 
@@ -106,6 +108,7 @@ inline void particle_renderer<T>::init()
 {
     // storage
     m_positions.resize( m_count*3 );
+    m_directions.resize( m_count*3 );
     m_colors.resize( m_count*4 );
     m_age.resize( m_count );
 
@@ -131,7 +134,7 @@ inline void particle_renderer<T>::init()
     // init VBO
     m_vbo.configure( 3, 4, 2, GL_POINTS );
     m_vbo.initVertices( m_positions.data(), m_count );
-    m_vbo.initColors( m_colors.data );
+    m_vbo.initColors( m_colors.data() );
 }
 
 
