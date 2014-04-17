@@ -60,7 +60,7 @@ protected:
     void update();
 
 protected:
-    static const size_t m_count = 1024;
+    static const size_t m_count = 1024*1024;
     std::vector<T> m_positions;
     std::vector<T> m_directions;
     std::vector<T> m_colors;
@@ -128,7 +128,7 @@ inline void particle_renderer<T>::init()
 
         // age & alpha
         m_age[i] = fabs(rand3(2));
-        m_colors[i*4+3] = cos( m_age[i]*3.141592654 );
+        m_colors[i*4+3] = 0.5*cos( m_age[i]*3.141592654 )+0.5;
     }
 
     // init VBO
